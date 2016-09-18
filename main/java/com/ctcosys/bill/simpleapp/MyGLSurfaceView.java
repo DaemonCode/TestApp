@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.support.v4.view.MotionEventCompat;
+import android.util.AttributeSet;
 import android.view.MotionEvent;
 
 /**
@@ -11,7 +12,6 @@ import android.view.MotionEvent;
  */
 public class MyGLSurfaceView extends GLSurfaceView {
     private final MyGLRenderer mRenderer;
-    //private final float TOUCH_SCALE_FACTOR = 0.0001f;
     private float mPreviousX;
     private float mPreviousY;
 
@@ -21,8 +21,8 @@ public class MyGLSurfaceView extends GLSurfaceView {
     private onScoreUpdateListener updater;
 
     //Constructor (Context context)
-    public MyGLSurfaceView(Context activity) {
-        super(activity);
+    public MyGLSurfaceView(Context activity, AttributeSet attrs) {
+        super(activity, attrs);
 
         try {
             //make sure container activity implements callback interface so
@@ -82,7 +82,7 @@ public class MyGLSurfaceView extends GLSurfaceView {
 
                 //tell the renderer how to translate
                 mRenderer.setTranslation(dx,dy);
-                //updater.onUpdate();
+                updater.onUpdate();
                 requestRender();
 
                 mPreviousX=x;

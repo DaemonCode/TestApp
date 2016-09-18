@@ -11,25 +11,27 @@ public class Game extends Activity implements MyGLSurfaceView.onScoreUpdateListe
 
     private GLSurfaceView mGLView;
     private TextView scoreKeeper;
-    private int score=0;
+    private String score="0";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+        mGLView = (MyGLSurfaceView) findViewById(R.id.glSurfaceView);
 
         //creates GLSurfaceview instance, sets as content for this activity
-        mGLView = new MyGLSurfaceView(this);
-        //scoreKeeper = (TextView)findViewById(R.id.gameScore);
-        //scoreKeeper.setText(score);
-        setContentView(mGLView);
+        //replace by findViewById for XML
+        //mGLView = new MyGLSurfaceView(this);
 
-        //addContentView(scoreKeeper, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        scoreKeeper = (TextView)findViewById(R.id.gameScore);
+        scoreKeeper.setText("Score: " + score);
+        //setContentView(mGLView);
     }
     public void onUpdate(){
-
-        score++;
-        scoreKeeper.setText(score);
+        Integer intScore = Integer.parseInt(score);
+        intScore++;
+        score=intScore.toString();
+        scoreKeeper.setText("Score: " + score);
     }
     public void saveScore(){
         //save it?
