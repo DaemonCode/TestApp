@@ -43,6 +43,7 @@ public class MyGLSurfaceView extends GLSurfaceView {
 
     public interface onScoreUpdateListener {
         public void onUpdate();
+        public void saveScore(Context context);
     }
 
     @Override
