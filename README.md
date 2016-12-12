@@ -1,8 +1,12 @@
 # SimpleApp
 
-My first experience with Android programming. So far we have a simple app which lets you drag a large triangle around. Next up is to add a scoring system so that you get points the longer you move the shape.
+Name: maybe BeatKing?
 
-Known bugs: Triangle motion maps to finger motion, rather than actual position
+My first experience with Android programming.
+Creating a game which is essentially a port of the Indie game Osu! to Android.
+Match on screen movement cues to music to score points and beat your high score.
+
+Known bugs: Multiple touch events at once will throw off the renderer. Maybe try tracking pointer indexes?
 
 Update 1: App now gets accurate X,Y coordiantes from touchevent, and OpenGL object should now move across screen proportionally to gestures
 
@@ -10,4 +14,4 @@ Update 2: Score system added to game loop! Gain points by  moving the shape acro
 
 Update 3: Added persistent score tracker. App now using internal storage to save your latest score, accessible from the Scores activity on the main menu.
 
-Next Update: Track top 10 highest scores, sorted high -> low
+Update 4: 
