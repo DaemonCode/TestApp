@@ -14,4 +14,21 @@ Update 2: Score system added to game loop! Gain points by  moving the shape acro
 
 Update 3: Added persistent score tracker. App now using internal storage to save your latest score, accessible from the Scores activity on the main menu.
 
-Update 4: 
+Update 4: Big Update!
+
+Added several features and fixed a lot of bugs.
+Objects in OpenGL are now rendered at the point of touch, rather than being dragged around from the center.
+Fixed a bug where the field of view affected the render point of opengl objects
+Added a circle class so we can render a more intuitive touch point, rather than a triangle (its made of triangles though)
+If you haven't saved a score yet, the Scores page should show "No Scores Available" rather than throw an exception
+
+Added developer mode to create game levels
+Created a MotionGroup class and linked list data structure to store input from dev mode
+Added functionality to write this data structure to a level file
+
+Future plans:
+Add functionality to read level file into a MotionGroup data structure to be used for level creation
+Add SQLlite Database for high scores
+Use MotionGroup structure to render lines and create a level
+Add level selection page to load levels created in developer mode
+Add sign in functional
