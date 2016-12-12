@@ -8,14 +8,14 @@
     android:paddingRight="0dp"
     android:paddingTop="0dp"
     tools:context="com.ctcosys.bill.simpleapp.Game"
-    android:id="@+id/gameLayout">
+    android:id="@+id/DevLayout">
 
-    <com.ctcosys.bill.simpleapp.MyGLSurfaceView
-        android:id="@+id/glSurfaceView"
+    <com.ctcosys.bill.simpleapp.DevSurfaceView
+        android:id="@+id/DevSurfaceView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <TextView android:id="@+id/gameScore"
+    <TextView android:id="@+id/timer"
         android:background="#0000"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -26,10 +26,18 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="SUBMIT SCORE"
+        android:text="SAVE LEVEL"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:id="@+id/buttonStart"/>
+        android:id="@+id/save_level"/>
+    <Chronometer
+        android:id="@+id/chronometer"
+        android:format="%s"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#ffffff"
+        android:textSize="40dp"
+        />
 
 
 </RelativeLayout>

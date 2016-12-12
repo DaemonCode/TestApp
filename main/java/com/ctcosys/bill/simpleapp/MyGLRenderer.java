@@ -11,27 +11,35 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 import static android.opengl.GLES10.*;
+import static java.lang.Math.PI;
 
 public class MyGLRenderer implements GLSurfaceView.Renderer {
 
-    private Triangle mTriangle;
-    private volatile float dx=0;
-    private volatile float dy=0;
+    private Line mLine;
+    private Circle mCircle;
 
     // mMVPMatrix is an abbreviation for "Model View Projection Matrix"
     private final float[] mMVPMatrix = new float[16];
     private final float[] mProjectionMatrix = new float[16];
     private final float[] mViewMatrix = new float[16];
+    private final  float[] mTranslationMatrix = new float[16];
 
     private int mWidth;
     private int mHeight;
-    private final float scaleFactor = .001f;
+
+    private float dx = 0;
+    private float dy = 0;
+    private float ratio = 1;
+    Boolean render = false;
 
 
     public void onSurfaceCreated(GL10 unused, EGLConfig config){
         //background color (black)
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-        mTriangle = new Triangle();
+        //mLine = new Line();
+        mCircle = new Circle();
+        Matrix.setIdentityM(mTranslationMatrix,0);
+        //dx = 1.5f;
     }
 
     public void onDrawFrame(GL10 unused){
@@ -43,52 +51,34 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
         // Set the camera position (View matrix)
         Matrix.setLookAtM(mViewMatrix, 0, 0, 0, -3, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
+        Matrix.translateM(mTranslationMatrix, 0, dx*ratio, dy, 0);
 
         // Calculate the projection and view transformation
         Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mViewMatrix, 0);
 
         //create translational transformation for triangle
-        Matrix.translateM(mTriangle.mModelMatrix,0,dx,dy,0);
-
-        //combines projection/view matrix with translation, mMVP first for some reason
-        Matrix.multiplyMM(scratch,0,mMVPMatrix,0,mTriangle.mModelMatrix,0);
+        Matrix.multiplyMM(scratch, 0, mMVPMatrix, 0, mTranslationMatrix, 0);
 
         //draw triangle
-        mTriangle.draw(scratch);
+        if(render)
+            mCircle.draw(scratch);
 
-    }/*
-    public float[] convertScreenCoords(float x, float y) {
-        int[] viewPortMatrix = new int[]{0, 0, (int)mWidth, (int)mHeight};
-        float[] outputNear = new float[4];
-        float[] outputFar = new float[4];
+        //mLine.draw(mMVPMatrix);
 
-        y = mHeight - y;
-        int successNear = GLU.gluUnProject(x, y, 0, mMVPMatrix, 0, mProjectionMatrix, 0, viewPortMatrix, 0, outputNear, 0);
-        int successFar = GLU.gluUnProject(x, y, 1,mMVPMatrix, 0, mProjectionMatrix, 0, viewPortMatrix, 0, outputFar, 0);
+    }
 
-        if (successNear == GL_FALSE || successFar == GL_FALSE) {
-            throw new RuntimeException("Cannot invert matrices!");
-        }
-
-        //convert4DCoords(outputNear);
-        //convert4DCoords(outputFar);
-
-        float distance = outputNear[2] / (outputFar[2] - outputNear[2]);
-        float normalizedX = (outputNear[0] + (outputFar[0] - outputNear[0]) * distance);
-        float normalizedY = (outputNear[1] + (outputFar[1] - outputNear[1]) * distance);
-
-        float[] normalCoords = {normalizedX,normalizedY};
-        return normalCoords;
-    }*/
     public void onSurfaceChanged(GL10 unused, int width, int height) {
         GLES20.glViewport(0, 0, width, height);
         mWidth=width;
         mHeight=height;
-        float ratio = (float) width / height;
+        ratio = (float) width / height;
+        float FOV = (float)Math.tan(110f * PI /360.0f);
+
 
         // this projection matrix is applied to object coordinates
         // in the onDrawFrame() method
-        Matrix.frustumM(mProjectionMatrix, 0, -ratio, ratio, -1, 1, 3, 7);
+        //Matrix.frustumM(mProjectionMatrix, 0, -ratio*FOV, ratio*FOV, -1, 1, 3, 7);
+        Matrix.orthoM(mProjectionMatrix,0,-ratio,ratio,-1,1,3,7);
     }
 
     //OpenGL Shading Language Code for environment
@@ -105,8 +95,20 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         return shader;
     }
 
-    public void setTranslation(float x, float y) {
-        dx = x * scaleFactor * -1;
-        dy = y * scaleFactor * -1;
+    public float[] computeCoords(float[] v){
+
+        v[0] = (v[0] * 2 / mWidth) - 1;
+        v[1] *= -1;
+        v[1] = (v[1] * 2 / mHeight) + 1;
+
+        dx = (v[0] - mCircle.getX())*-1;
+        dy = v[1] - mCircle.getY();
+
+        mCircle.setX(v[0]);
+        mCircle.setY(v[1]);
+        return v;
+    }
+    public void setRender(Boolean bool){
+        render = bool;
     }
 }

@@ -2,5 +2,7 @@
     <string name="app_name">SimpleApp</string>
     <string name="gameScore">gameScore</string>
     <string name="glSurfaceView">surfaceView</string>
+    <string name ="scoreScreen">scoreScreen</string>
+    <string name="edit_name">Insert Name</string>
 
 </resources>

@@ -20,4 +20,8 @@ public class Main extends AppCompatActivity {
         Intent intent = new Intent(this, Scores.class);
         startActivity(intent);
     }
+    public void startDevMode(View view){
+        Intent intent = new Intent(this, Dev.class);
+        startActivity(intent);
+    }
 }
